@@ -26,7 +26,14 @@ void push_front(list* l, node* p)
 	p->pNext = l->header;
 	p->pPrev = NULL;
 
+	if (l->header != NULL) {
+		l->header->pPrev = p;
+	}
+
 	l->header = p;
+	if (l->footer == NULL) {
+		l->footer = p;
+	}
 }
 
 // 末尾にデータを追加
@@ -35,7 +42,14 @@ void push_back(list* l, node* p)
 	p->pNext = NULL;
 	p->pPrev = l->footer;
 
+	if (l->footer != NULL) {
+		l->footer->pNext = p;
+	}
+
 	l->footer = p;
+	if (l->header == NULL) {
+		l->header = p;
+	}
 }
 
 // pのノードを削除
@@ -44,9 +58,15 @@ void remove_node(list* l, node* p)
 	if (p->pNext != NULL) {
 		p->pNext->pPrev = p->pPrev;
 	}
+	else {
+		l->footer = p->pPrev;
+	}
 
 	if (p->pPrev != NULL) {
 		p->pPrev->pNext = p->pNext;
+	}
+	else {
+		l->header = p->pNext;
 	}
 }
 
