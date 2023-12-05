@@ -23,8 +23,9 @@ void initialize_list(list* l)
 // 先頭にデータを追加
 void push_front(list* l, node* p)
 {
-	l->header=p;
 	
+	l->header = p;
+
 	
 }
 
@@ -37,19 +38,21 @@ void push_back(list* l, node* p)
 // pのノードを削除
 void remove_node(list* l, node* p)
 {
-	
+	Remove("p");
 }
 
 // pの次のノードを削除
 void remove_next(list* l, node* p)
 {
-	
+	p++;
+	Remove("p");
 }
 
 // pの前のノードを削除
 void remove_prev(list* l, node* p)
 {
-	
+	p--;
+	Remove("p");
 }
 
 
@@ -58,7 +61,7 @@ node* get_next(list* l, node* p)
 {
 	if (!p) return NULL;
 	return p->pNext;
-
+	
 	//return NULL;
 }
 
@@ -67,6 +70,6 @@ node* get_prev(list* l, node* p)
 {
 	if (!p) return NULL;
 	return p->pPrev;
-
+	
 	//return NULL;
 }
