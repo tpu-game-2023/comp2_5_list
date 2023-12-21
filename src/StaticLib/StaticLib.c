@@ -21,91 +21,61 @@ void initialize_list(list* l)
 
 
 // 先頭にデータを追加
-void push_front(list* l, node* newNode) {
-    if (l == NULL || newNode == NULL) {
+void push_front(list* l, node* p) {
+    if (l == NULL || p == NULL) {
         return; // エラー処理
     }
-
-    if (l->header == NULL) {
-        // リストが空の場合
-        l->header = newNode;
-        l->footer = newNode;
+    p->pNext = l->header;
+    if (l->header) {
+        l->header->pPrev = p;
     }
     else {
-        // リストが空でない場合
-        newNode->pNext = l->header;
-        l->header->pPrev = newNode;
-        l->header = newNode;
+        l->footer = p;
     }
+    l->header = p;
 }
 
 // リストの末尾にノードを追加
-void push_back(list* l, node* newNode) {
-    if (l == NULL || newNode == NULL) {
+void push_back(list* l, node* p) {
+    if (l == NULL || p == NULL) {
         return; // エラー処理
     }
-
-    if (l->footer == NULL) {
-        // リストが空の場合
-        l->header = newNode;
-        l->footer = newNode;
+    p->pPrev = l->footer;
+    if (l->footer) {
+        l->footer->pNext = p;
     }
     else {
-        // リストが空でない場合
-        newNode->pPrev = l->footer;
-        l->footer->pNext = newNode;
-        l->footer = newNode;
+        l->header= p;
     }
+    l->footer = p;
 }
 
 // pのノードを削除
 // ノードをリストから削除
 void remove_node(list* l, node* p) {
-    if (l == NULL || p == NULL || l->header == NULL) {
-        // エラー処理またはデバッグログの出力
+    if (l == NULL || p == NULL ) {
         return;
     }
-
-    // ノードが先頭の場合
-    if (p == l->header) {
-        l->header = p->pNext;
-        if (l->header != NULL) {
-            l->header->pPrev = NULL;
-        }
-    }
-    else {
-        // ノードが先頭でない場合
-        if (p->pPrev != NULL) {
-            p->pPrev->pNext = p->pNext;
-        }
-    }
-
-    // ノードが末尾の場合
-    if (p == l->footer) {
-        l->footer = p->pPrev;
-        if (l->footer != NULL) {
-            l->footer->pNext = NULL;
-        }
-    }
-    else {
-        // ノードが末尾でない場合
-        if (p->pNext != NULL) {
-            p->pNext->pPrev = p->pPrev;
-        }
-    }
-
-    // ポインタが NULL でないことを確認してから解放
-    free(p);
+    if (p->pNext) {//ノードを条件分岐に使用する(ノードの要素が存在している場合のみ置き換えを行う)
+        p->pNext->pPrev = p->pPrev;
 }
+    else {
+        l->footer = p->pPrev;
+    }
+    if (p->pPrev) {
+        p->pPrev->pNext = p->pNext;
+    }
+    else {
+        l->header = p->pNext;
+    }
+    p->pNext = p->pPrev = NULL;//消すのはリストじゃない
 
-
-
-
+}
 // pの次のノードを削除
 void remove_next(list* l, node* p)
 {
-    if (p == NULL || p->pNext == NULL || l == NULL || l->footer == NULL) {
-        // エラー処理またはデバッグログの出力
+    if (p == NULL || p->pNext == NULL || l == NULL ) {
+      
         return;
     }
 
@@ -117,8 +87,7 @@ void remove_next(list* l, node* p)
 // pの前のノードを削除
 void remove_prev(list* l, node* p)
 {
-    if (p == NULL || p->pPrev == NULL || l == NULL || l->header == NULL) {
-        // エラー処理またはデバッグログの出力
+    if (p == NULL || p->pPrev == NULL || l == NULL ) {
         return;
     }
 
