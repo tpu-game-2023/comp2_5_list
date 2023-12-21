@@ -130,11 +130,17 @@ void remove_prev(list* l, node* p)
 // pの次のノードを取得
 node* get_next(list* l, node* p)
 {
-    return p ? p->pNext : NULL;
+    if (!p) return NULL;
+    return p->pNext;
+
+    return NULL;
 }
 
 // pの前のノードを取得
 node* get_prev(list* l, node* p)
 {
-    return p ? p->pPrev : NULL;
+    if (!p) return NULL;
+    return p->pPrev;
+
+    return NULL;
 }
